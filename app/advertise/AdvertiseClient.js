@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import { AccountReached } from "../../components/advertiseComponents/analyticsCharts/chartAccountReached/chartAccountReached";
 import { ViewsCountry } from "../../components/advertiseComponents/analyticsCharts/chartViewsByCountry/chartViewsByCountry";
 import { ActiveUsers } from "../../components/advertiseComponents/analyticsCharts/chartActiveUsers/chartActiveUsers";
@@ -17,45 +15,56 @@ import CustomizedHoverButton from "../../components/customizedHoverButton/custom
 import AdvertiseMotionText from "../../components/advertiseMotionText/advertiseMotionText";
 import Script from "next/script";
 
-// --- Add formatter here ---
-// function formatCompactNumber(num) {
-//   if (!num) return "0";
+const staticAnalyticsData = {
+  subscribersMonthly: [
+    { month: "2025-04-01", count: 319762 },
+    { month: "2025-05-01", count: 340253 },
+    { month: "2025-06-01", count: 419994 },
+    { month: "2025-07-01", count: 625718 },
+    { month: "2025-08-01", count: 1078698 },
+    { month: "2025-09-01", count: 894573 },
+    { month: "2025-10-01", count: 777328 },
+    { month: "2025-11-01", count: 1126959 },
+    { month: "2025-12-01", count: 1439330 },
+    { month: "2026-01-01", count: 673828 },
+    { month: "2026-02-01", count: 1585710 },
+    { month: "2026-03-01", count: 1650596 },
+  ],
+  opensMonthly: [
+    { month: "2025-04-01", count: 118560 },
+    { month: "2025-05-01", count: 216744 },
+    { month: "2025-06-01", count: 605956 },
+    { month: "2025-07-01", count: 1077781 },
+    { month: "2025-08-01", count: 1218307 },
+    { month: "2025-09-01", count: 1446435 },
+    { month: "2025-10-01", count: 1625856 },
+    { month: "2025-11-01", count: 2355611 },
+    { month: "2025-12-01", count: 3160605 },
+    { month: "2026-01-01", count: 3893175 },
+    { month: "2026-02-01", count: 4621892 },
+    { month: "2026-03-01", count: 6105316 },
+  ],
+  adClickActivity: [
+    { week: "Week 1", lastMonth: 4862, thisMonth: 4729 },
+    { week: "Week 2", lastMonth: 4747, thisMonth: 3920 },
+    { week: "Week 3", lastMonth: 7168, thisMonth: 6050 },
+    { week: "Week 4", lastMonth: 3987, thisMonth: 2789 },
+  ],
+  lastCampaignOpenSummary: {
+    totalOpens: 240123,
+    formattedTotalOpens: "240K+",
+  },
+};
 
-//   const n = Number(num);
-//   if (isNaN(n)) return num;
-
-//   // Billions → allow decimal
-//   if (n >= 1_000_000_000) {
-//     return (n / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
-//   }
-
-//   // Millions → allow decimal
-//   if (n >= 1_000_000) {
-//     return (n / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
-//   }
-
-//   // Thousands → NO decimal
-//   if (n >= 1_000) {
-//     return Math.floor(n / 1_000) + "K";
-//   }
-
-//   return n.toString();
-// }
-
-export default function AdvertiseClient({ analyticsData }) {
-  const [data] = useState(analyticsData || {});
-  // Use raw number and convert
-  // const rawYesterdayOpens =
-  //   analyticsData?.lastCampaignOpenSummary?.totalOpens || 124056;
-
-  // const heroYesterdayReach = formatCompactNumber(rawYesterdayOpens);
+export default function AdvertiseClient() {
   const {
     subscribersMonthly = [],
     opensByCountry = [],
     opensMonthly = [],
     opensByGender = [],
     adClickActivity = [],
-  } = data;
+    lastCampaignOpenSummary = {},
+  } = staticAnalyticsData;
 
   const videos = [
     { video: "/advertise/v-1.mp4", id: "video1", height: "h-[694px]" },
@@ -91,18 +100,18 @@ export default function AdvertiseClient({ analyticsData }) {
           }("0NW1GHZ25404");
         `}
       </Script>
+
       {/* hero section */}
       <div className="bg-[#FAFAFA] hidden lg:block pt-[38px]">
         <div className=" relative md:px-28">
-          {/* Text Section */}
           <div className="lg:pt-20 mx-auto">
             <div className="text-[#01261E]">
               <h1
                 className="text-[80px] lg:w-[50%]  leading-[94%]"
                 style={{ textShadow: "0px 4px 4px rgba(31, 25, 25, 0.00)" }}
               >
-                {analyticsData?.lastCampaignOpenSummary?.formattedTotalOpens}{" "}
-                people would have seen your brand yesterday
+                {lastCampaignOpenSummary?.formattedTotalOpens} people would have
+                seen your brand yesterday
               </h1>
               <p className="text-[20px] py-4 w-[30%] sm:w-[30%]">
                 Make your brand part of their morning ritual. Not ignored ad
@@ -118,9 +127,7 @@ export default function AdvertiseClient({ analyticsData }) {
             </div>
           </div>
 
-          {/* Video + Text Section */}
           <div className="relative w-full mt-10">
-            {/* Videos */}
             <div className="flex justify-center relative">
               <div className="flex space-x-4 items-end relative z-0 w-full">
                 {videos.map((video) => (
@@ -139,7 +146,6 @@ export default function AdvertiseClient({ analyticsData }) {
               </div>
             </div>
 
-            {/* 1M+ Subscribers Text */}
             <div className="absolute -bottom-4 left-[49.7%] -translate-x-1/2 z-20 text-center">
               <h2 className="font-[700] sm:text-[10vw] lg:text-[11.4vw] 2xl:text-[11.4vw] [1650px]:text-[13vw] [1800px]:text-[13vw] leading-[94%] tracking-[-1.6px] whitespace-nowrap">
                 <span className="text-white">
@@ -160,9 +166,7 @@ export default function AdvertiseClient({ analyticsData }) {
           <HeadingWithUnderline text="Combined Analytics" />
         </div>
 
-        {/* charts section */}
         <div className="">
-          {/* #1 */}
           <div className="flex flex-col md:flex-row justify-center items-stretch gap-4 w-full md:py-4">
             <div className="w-full md:w-[45%]">
               <AccountReached
@@ -175,7 +179,6 @@ export default function AdvertiseClient({ analyticsData }) {
             </div>
           </div>
 
-          {/* #2 */}
           <div className="flex flex-col md:flex-row justify-center items-stretch gap-4 w-full md:py-4">
             <div className="w-full md:w-[35%]">
               <Statistics opensByGender={opensByGender} />
@@ -185,7 +188,6 @@ export default function AdvertiseClient({ analyticsData }) {
             </div>
           </div>
 
-          {/* #3 */}
           <div className="flex flex-col md:flex-row justify-center items-stretch gap-4 w-full md:py-4">
             <div className="w-full md:w-[45%]">
               <SignInUps adClickActivity={adClickActivity} />
@@ -229,7 +231,7 @@ export default function AdvertiseClient({ analyticsData }) {
         </div>
       </div>
 
-      {/*text with video section */}
+      {/* text with video section */}
       <div className="bg-[#FAFAFA] hidden lg:block">
         <div className="px-4 sm:px-10 xl:px-28 2xl:px-28 py-10">
           <HeadingWithUnderline text="What your ads will look like" />
@@ -270,32 +272,16 @@ export default function AdvertiseClient({ analyticsData }) {
             </p>
           </div>
 
-          {/* <a
-            href="/contact"
-            className="w-[806px] border border-[#01261E] rounded-[153px] overflow-hidden relative group mt-10 hover:bg-[#01261E] hover:text-[#ffffff] text-[#01261E]"
-          >
-            <span className="flex py-[31px] justify-end items-center  text-[100px] font-[800] whitespace-nowrap transition-transform uppercase duration-500 ease-in-out animate-scroll group-hover:pause group">
-              ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp;
-              ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp;
-              ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp;
-              ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp;
-              ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp;
-              ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp; ADVERTISE&nbsp;
-            </span>
-          </a> */}
           <AdvertiseMotionText />
         </div>
       </div>
 
-      {/* Ad blocker and Do follow */}
       <div className="hidden lg:block">
         <AdvertiseAdBlocker />
       </div>
 
-      {/* faq */}
       <AdvertiseNewFaq />
 
-      {/* mobile view for advertise page */}
       <div className="block lg:hidden bg-[#FAFAFA] pt-[100px] pb-[10px]">
         <AdvertisePageMobileVersion
           subscribersMonthly={subscribersMonthly}
@@ -304,9 +290,7 @@ export default function AdvertiseClient({ analyticsData }) {
           opensByGender={opensByGender}
           opensMonthly={opensMonthly}
           adClickActivity={adClickActivity}
-          formattedTotalOpens={
-            analyticsData?.lastCampaignOpenSummary?.formattedTotalOpens
-          }
+          formattedTotalOpens={lastCampaignOpenSummary?.formattedTotalOpens}
         />
       </div>
     </>
