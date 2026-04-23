@@ -1,62 +1,70 @@
 "use client";
 
-import { AccountReached } from "../../components/advertiseComponents/analyticsCharts/chartAccountReached/chartAccountReached";
-import { ViewsCountry } from "../../components/advertiseComponents/analyticsCharts/chartViewsByCountry/chartViewsByCountry";
-import { ActiveUsers } from "../../components/advertiseComponents/analyticsCharts/chartActiveUsers/chartActiveUsers";
-import { Statistics } from "../../components/advertiseComponents/analyticsCharts/chartStatistics/chartStatistics";
-import { SignInUps } from "../../components/advertiseComponents/analyticsCharts/chartSignUps/chartSignUps";
-import HeadingWithUnderline from "../../components/advertiseComponents/headingWithUnderline/headingwithUnderline";
-
-import AdvertisePageMobileVersion from "../../components/advertisePageMobileVersion/advertisePageMobileVersion";
-import AdvertiseAdBlocker from "../../components/advertiseAdBlocker/advertiseAdBlocker";
-import AdvertiseNewFaq from "../../components/advertiseNewFaq/advertiseNewFaq";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import CustomizedHoverButton from "../../components/customizedHoverButton/customizedHoverButton";
-import AdvertiseMotionText from "../../components/advertiseMotionText/advertiseMotionText";
 import Script from "next/script";
 
-const staticAnalyticsData = {
-  subscribersMonthly: [
-    { month: "2025-04-01", count: 319762 },
-    { month: "2025-05-01", count: 340253 },
-    { month: "2025-06-01", count: 419994 },
-    { month: "2025-07-01", count: 625718 },
-    { month: "2025-08-01", count: 1078698 },
-    { month: "2025-09-01", count: 894573 },
-    { month: "2025-10-01", count: 777328 },
-    { month: "2025-11-01", count: 1126959 },
-    { month: "2025-12-01", count: 1439330 },
-    { month: "2026-01-01", count: 673828 },
-    { month: "2026-02-01", count: 1585710 },
-    { month: "2026-03-01", count: 1650596 },
-  ],
-  opensMonthly: [
-    { month: "2025-04-01", count: 118560 },
-    { month: "2025-05-01", count: 216744 },
-    { month: "2025-06-01", count: 605956 },
-    { month: "2025-07-01", count: 1077781 },
-    { month: "2025-08-01", count: 1218307 },
-    { month: "2025-09-01", count: 1446435 },
-    { month: "2025-10-01", count: 1625856 },
-    { month: "2025-11-01", count: 2355611 },
-    { month: "2025-12-01", count: 3160605 },
-    { month: "2026-01-01", count: 3893175 },
-    { month: "2026-02-01", count: 4621892 },
-    { month: "2026-03-01", count: 6105316 },
-  ],
-  adClickActivity: [
-    { week: "Week 1", lastMonth: 4862, thisMonth: 4729 },
-    { week: "Week 2", lastMonth: 4747, thisMonth: 3920 },
-    { week: "Week 3", lastMonth: 7168, thisMonth: 6050 },
-    { week: "Week 4", lastMonth: 3987, thisMonth: 2789 },
-  ],
-  lastCampaignOpenSummary: {
-    totalOpens: 240123,
-    formattedTotalOpens: "240K+",
-  },
-};
+import HeadingWithUnderline from "../../components/advertiseComponents/headingWithUnderline/headingwithUnderline";
+import CustomizedHoverButton from "../../components/customizedHoverButton/customizedHoverButton";
+import AdvertiseMotionText from "../../components/advertiseMotionText/advertiseMotionText";
 
-export default function AdvertiseClient() {
+const AccountReached = dynamic(
+  () =>
+    import("../../components/advertiseComponents/analyticsCharts/chartAccountReached/chartAccountReached").then(
+      (mod) => mod.AccountReached,
+    ),
+  { ssr: false },
+);
+
+const ViewsCountry = dynamic(
+  () =>
+    import("../../components/advertiseComponents/analyticsCharts/chartViewsByCountry/chartViewsByCountry").then(
+      (mod) => mod.ViewsCountry,
+    ),
+  { ssr: false },
+);
+
+const ActiveUsers = dynamic(
+  () =>
+    import("../../components/advertiseComponents/analyticsCharts/chartActiveUsers/chartActiveUsers").then(
+      (mod) => mod.ActiveUsers,
+    ),
+  { ssr: false },
+);
+
+const Statistics = dynamic(
+  () =>
+    import("../../components/advertiseComponents/analyticsCharts/chartStatistics/chartStatistics").then(
+      (mod) => mod.Statistics,
+    ),
+  { ssr: false },
+);
+
+const SignInUps = dynamic(
+  () =>
+    import("../../components/advertiseComponents/analyticsCharts/chartSignUps/chartSignUps").then(
+      (mod) => mod.SignInUps,
+    ),
+  { ssr: false },
+);
+
+const AdvertisePageMobileVersion = dynamic(
+  () =>
+    import("../../components/advertisePageMobileVersion/advertisePageMobileVersion"),
+  { ssr: false },
+);
+
+const AdvertiseAdBlocker = dynamic(
+  () => import("../../components/advertiseAdBlocker/advertiseAdBlocker"),
+  { ssr: false },
+);
+
+const AdvertiseNewFaq = dynamic(
+  () => import("../../components/advertiseNewFaq/advertiseNewFaq"),
+  { ssr: false },
+);
+
+export default function AdvertiseClient({ analyticsData }) {
   const {
     subscribersMonthly = [],
     opensByCountry = [],
@@ -64,7 +72,7 @@ export default function AdvertiseClient() {
     opensByGender = [],
     adClickActivity = [],
     lastCampaignOpenSummary = {},
-  } = staticAnalyticsData;
+  } = analyticsData || {};
 
   const videos = [
     { video: "/advertise/v-1.mp4", id: "video1", height: "h-[694px]" },
@@ -101,7 +109,6 @@ export default function AdvertiseClient() {
         `}
       </Script>
 
-      {/* hero section */}
       <div className="bg-[#FAFAFA] hidden lg:block pt-[38px]">
         <div className=" relative md:px-28">
           <div className="lg:pt-20 mx-auto">
@@ -160,7 +167,6 @@ export default function AdvertiseClient() {
         </div>
       </div>
 
-      {/* combined analytics */}
       <div className="bg-[#FAFAFA] relative hidden lg:block pt-20">
         <div className="px-4 sm:px-10 xl:px-28 2xl:px-28 pt-16 pb-10">
           <HeadingWithUnderline text="Combined Analytics" />
@@ -231,7 +237,6 @@ export default function AdvertiseClient() {
         </div>
       </div>
 
-      {/* text with video section */}
       <div className="bg-[#FAFAFA] hidden lg:block">
         <div className="px-4 sm:px-10 xl:px-28 2xl:px-28 py-10">
           <HeadingWithUnderline text="What your ads will look like" />
