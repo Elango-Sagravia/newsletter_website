@@ -1,13 +1,10 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 
-const CRON_SECRET = process.env.CRON_SECRET;
-
 export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-  const secret = searchParams.get("secret");
+  const authHeader = req.headers.get("authorization");
 
-  if (!CRON_SECRET || secret !== CRON_SECRET) {
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -24,7 +21,7 @@ export async function GET(req) {
     console.error("Cron refresh error:", err);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

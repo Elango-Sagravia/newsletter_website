@@ -1,8 +1,12 @@
 {
   "crons": [
     {
-      "path": "/api/cron/refresh-website-totals?secret=vqGXUejQrJ3u8vp2geQt",
+      "path": "/api/cron/refresh-website-totals",
       "schedule": "0 0,12 * * *"
+    },
+    {
+      "path": "/api/cron/update-campaign-email-stats",
+      "schedule": "0 */3 * * *"
     }
   ]
 }
